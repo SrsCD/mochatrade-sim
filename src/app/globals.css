@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+@theme {
+  --color-app-canvas: #F7F8FA;
+  --color-app-surface: #FFFFFF;
+  --color-app-subtle: #F1F5F9;
+  --color-app-border: #E2E8F0;
+  --color-app-borderLight: #EEF2F6;
+  --color-app-hover: #F8FAFC;
+
+  --color-ink-primary: #0F172A;
+  --color-ink-secondary: #64748B;
+  --color-ink-tertiary: #94A3B8;
+
+  --color-teal-brand: #0F766E;
+  --color-teal-hover: #0D9488;
+  --color-teal-subtle: #F0FDFA;
+  --color-teal-border: #CCFBF1;
+
+  --color-badge-pos: #15803D;
+  --color-badge-posBg: #F0FDF4;
+  --color-badge-posBorder: #DCFCE7;
+  --color-badge-neg: #B91C1C;
+  --color-badge-negBg: #FEF2F2;
+  --color-badge-negBorder: #FEE2E2;
+
+  --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-serif-display: var(--font-fraunces), Georgia, serif;
+
+  --shadow-subtle: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+}
+
+@layer base {
+  body {
+    background-color: var(--color-app-canvas);
+    color: var(--color-ink-primary);
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+input[type=range] {
+  accent-color: var(--color-teal-brand);
+}
