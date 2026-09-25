@@ -2,9 +2,18 @@
 import { SimulationResult } from '@/lib/model';
 import { formatCurrency } from '@/lib/formatting';
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis, Line } from 'recharts';
+import { useState, useEffect } from 'react';
 
 export default function VolumeChart({ result, baseline }: { result: SimulationResult, baseline: SimulationResult }) {
-  
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsInitialLoad(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
   const data = result.monthly.map((m, i) => {
     return {
       name: `M${m.month}`,
@@ -33,13 +42,13 @@ export default function VolumeChart({ result, baseline }: { result: SimulationRe
         </div>
       </div>
       
-      <div className="w-full h-56 pt-2">
+      <div className="w-full h-72 pt-4 pb-2">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
             <defs>
               <linearGradient id="colorBitrebels" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#0F766E" stopOpacity={0.15}/>
-                <stop offset="95%" stopColor="#0F766E" stopOpacity={0}/>
+                <stop offset="5%" stopColor="#2EC4B6" stopOpacity={0.15}/>
+                <stop offset="95%" stopColor="#2EC4B6" stopOpacity={0}/>
               </linearGradient>
             </defs>
             <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94A3B8' }} dy={10} />
@@ -49,10 +58,10 @@ export default function VolumeChart({ result, baseline }: { result: SimulationRe
               tick={{ fontSize: 10, fill: '#94A3B8' }} 
               tickFormatter={(val) => `₹${(val / 10000000).toFixed(0)}Cr`}
             />
-            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
+            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E4E5E0" />
             <Tooltip 
               formatter={(value: any, name: any) => [formatCurrency(Number(value) || 0), String(name)]}
-              contentStyle={{ fontSize: '12px', borderRadius: '8px', border: '1px solid #E2E8F0', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)' }}
+              contentStyle={{ fontSize: '12px', borderRadius: '8px', border: '1px solid #E4E5E0', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)' }}
             />
             
             <Line 
@@ -63,15 +72,19 @@ export default function VolumeChart({ result, baseline }: { result: SimulationRe
               strokeDasharray="4 4" 
               dot={false}
               activeDot={{ r: 4 }}
+              animationDuration={isInitialLoad ? 800 : 350}
+              animationEasing="ease-out"
             />
             <Area 
               type="monotone" 
               dataKey="BITREBELS" 
-              stroke="#0F766E" 
+              stroke="#2EC4B6" 
               strokeWidth={2.5}
               fillOpacity={1} 
               fill="url(#colorBitrebels)" 
-              activeDot={{ r: 6, strokeWidth: 0, fill: '#0F766E' }}
+              activeDot={{ r: 6, strokeWidth: 0, fill: '#2EC4B6' }}
+              animationDuration={isInitialLoad ? 800 : 350}
+              animationEasing="ease-out"
             />
           </AreaChart>
         </ResponsiveContainer>

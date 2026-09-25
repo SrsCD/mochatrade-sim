@@ -49,7 +49,7 @@ export default function ScenarioComparison({ result, baseline }: { result: Simul
       <div className="flex items-center justify-between pb-3 border-b border-app-border">
         <div>
           <h3 className="font-serif-display text-[17px] font-semibold text-ink-primary">Scenario comparison</h3>
-          <p className="text-xs text-ink-secondary mt-0.5">Baseline vs. BITREBELS strategy variance</p>
+          <p className="text-xs text-ink-secondary mt-0.5">See how the BITREBELS strategy differs from the baseline.</p>
         </div>
         <span className="text-[11px] text-ink-secondary">Full Model Reconciliation</span>
       </div>
@@ -66,21 +66,15 @@ export default function ScenarioComparison({ result, baseline }: { result: Simul
           </thead>
           <tbody className="divide-y divide-app-border/70">
             {renderRow('Signups', baseline.inputs.signups, result.inputs.signups, formatNumber)}
-            {renderRow('Activation rate', baseline.finalActivationRate, result.finalActivationRate, formatPercent, false, true)}
+            {renderRow('Activation', baseline.finalActivationRate, result.finalActivationRate, formatPercent, false, true)}
             {renderRow('Activated users', baseline.activatedUsers, result.activatedUsers, formatNumber)}
-            {renderRow('Active traders', baseline.activeTraders, result.activeTraders, formatNumber)}
-            {renderRow('Trading volume', baseline.annualVolume, result.annualVolume, formatCurrency)}
+            {renderRow('Active traders (M12)', baseline.activeTraders, result.activeTraders, formatNumber)}
+            {renderRow('Year-1 trading volume', baseline.annualVolume, result.annualVolume, formatCurrency)}
             {renderRow('Effective fee', baseline.effectiveFee, result.effectiveFee, (v) => v.toFixed(4) + '%', true)}
-            {renderRow('Fee revenue', baseline.annualRevenue, result.annualRevenue, formatCurrency, false, false, true)}
-            
-            {renderRow(
-              'Non-paid share', 
-              baseline.inputs.referralShare + baseline.inputs.communityShare, 
-              result.inputs.referralShare + result.inputs.communityShare, 
-              (v) => v + '%',
-              false,
-              true
-            )}
+            {renderRow('Year-1 fee revenue', baseline.annualRevenue, result.annualRevenue, formatCurrency, false, false, true)}
+            {renderRow('Referral share', baseline.inputs.referralShare, result.inputs.referralShare, (v) => v.toFixed(0) + '%', false, true)}
+            {renderRow('Community share', baseline.inputs.communityShare, result.inputs.communityShare, (v) => v.toFixed(0) + '%', false, true)}
+            {renderRow('Paid share', 100 - baseline.inputs.referralShare - baseline.inputs.communityShare, 100 - result.inputs.referralShare - result.inputs.communityShare, (v) => v.toFixed(0) + '%', true, true)}
           </tbody>
         </table>
       </div>

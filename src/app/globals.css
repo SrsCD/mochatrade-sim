@@ -1,21 +1,21 @@
 @import "tailwindcss";
 
 @theme {
-  --color-app-canvas: #F7F8FA;
+  --color-app-canvas: #FAF5E9;
   --color-app-surface: #FFFFFF;
-  --color-app-subtle: #F1F5F9;
-  --color-app-border: #E2E8F0;
-  --color-app-borderLight: #EEF2F6;
-  --color-app-hover: #F8FAFC;
+  --color-app-subtle: #F2ECE0;
+  --color-app-border: #E7E3D8;
+  --color-app-borderLight: #EFECE4;
+  --color-app-hover: #FDFBF7;
 
-  --color-ink-primary: #0F172A;
-  --color-ink-secondary: #64748B;
-  --color-ink-tertiary: #94A3B8;
+  --color-ink-primary: #17372A;
+  --color-ink-secondary: #66736B;
+  --color-ink-tertiary: #929C96;
 
-  --color-teal-brand: #0F766E;
-  --color-teal-hover: #0D9488;
-  --color-teal-subtle: #F0FDFA;
-  --color-teal-border: #CCFBF1;
+  --color-teal-brand: #2EC4B6;
+  --color-teal-hover: #26A599;
+  --color-teal-subtle: #EAF9F8;
+  --color-teal-border: #C0EEEA;
 
   --color-badge-pos: #15803D;
   --color-badge-posBg: #F0FDF4;

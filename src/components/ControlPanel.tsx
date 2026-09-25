@@ -1,4 +1,5 @@
 import { SimulatorInputs, TrustLevel } from '@/lib/model';
+import { motion } from 'framer-motion';
 
 export default function ControlPanel({
   inputs,
@@ -80,9 +81,9 @@ export default function ControlPanel({
             <span>Non-paid acquisition: <strong className="text-badge-pos font-semibold">{nonPaidShare}%</strong></span>
           </div>
           <div className="w-full h-2 rounded bg-slate-100 overflow-hidden flex">
-            <div className="bg-teal-brand h-full" style={{width: `${inputs.referralShare}%`}}></div>
-            <div className="bg-indigo-500 h-full" style={{width: `${inputs.communityShare}%`}}></div>
-            <div className="bg-slate-300 h-full" style={{width: `${paidShare}%`}}></div>
+            <motion.div className="bg-teal-brand h-full" animate={{ width: `${inputs.referralShare}%` }} transition={{ duration: 0.5, ease: "easeOut" }} />
+            <motion.div className="bg-indigo-500 h-full" animate={{ width: `${inputs.communityShare}%` }} transition={{ duration: 0.5, ease: "easeOut" }} />
+            <motion.div className="bg-slate-300 h-full" animate={{ width: `${paidShare}%` }} transition={{ duration: 0.5, ease: "easeOut" }} />
           </div>
           
           <div className="grid grid-cols-3 gap-2 pt-1 text-[11px]">

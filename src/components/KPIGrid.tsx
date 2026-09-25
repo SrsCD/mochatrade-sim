@@ -1,5 +1,6 @@
 import { SimulationResult } from '@/lib/model';
 import { formatCurrency, formatPercent, formatNumber } from '@/lib/formatting';
+import AnimatedNumber from './AnimatedNumber';
 
 export default function KPIGrid({ result, baseline }: { result: SimulationResult, baseline: SimulationResult }) {
   // Helpers
@@ -31,46 +32,46 @@ export default function KPIGrid({ result, baseline }: { result: SimulationResult
   };
 
   return (
-    <section className="bg-white border border-app-border rounded-lg shadow-subtle grid grid-cols-2 md:grid-cols-5 divide-y md:divide-y-0 md:divide-x divide-app-border">
-      <div className="p-4 space-y-1.5">
-        <span className="text-xs text-slate-500 block font-medium">Year-1 trading volume</span>
+    <section className="grid grid-cols-2 md:grid-cols-5 gap-y-8 gap-x-6">
+      <div className="space-y-1.5 md:border-r md:border-app-border">
+        <span className="text-[11px] text-ink-secondary block font-semibold uppercase tracking-wider">Year-1 trading volume</span>
         <div className="flex items-baseline gap-2">
-          <span className="text-2xl font-bold tracking-tight text-ink-primary num">{formatCurrency(result.annualVolume)}</span>
+          <AnimatedNumber value={result.annualVolume} formatType="currency" className="text-[26px] font-bold tracking-tight text-ink-primary num" />
         </div>
         {renderVariance(result.annualVolume, baseline.annualVolume)}
       </div>
 
-      <div className="p-4 space-y-1.5">
-        <span className="text-xs text-slate-500 block font-medium">Year-1 fee revenue</span>
+      <div className="space-y-1.5 md:border-r md:border-app-border md:pl-4">
+        <span className="text-[11px] text-ink-secondary block font-semibold uppercase tracking-wider">Year-1 fee revenue</span>
         <div className="flex items-baseline gap-2">
-          <span className="text-2xl font-bold tracking-tight text-ink-primary num">{formatCurrency(result.annualRevenue)}</span>
+          <AnimatedNumber value={result.annualRevenue} formatType="currency" className="text-[26px] font-bold tracking-tight text-ink-primary num" />
         </div>
         {renderVariance(result.annualRevenue, baseline.annualRevenue)}
       </div>
 
-      <div className="p-4 space-y-1.5">
-        <span className="text-xs text-slate-500 block font-medium">Active traders (M12)</span>
+      <div className="space-y-1.5 md:border-r md:border-app-border md:pl-4">
+        <span className="text-[11px] text-ink-secondary block font-semibold uppercase tracking-wider">Active traders (M12)</span>
         <div className="flex items-baseline gap-2">
-          <span className="text-2xl font-bold tracking-tight text-ink-primary num whitespace-nowrap">{formatNumber(result.activeTraders)}</span>
+          <AnimatedNumber value={result.activeTraders} formatType="number" className="text-[26px] font-bold tracking-tight text-ink-primary num whitespace-nowrap" />
         </div>
         {renderVariance(result.activeTraders, baseline.activeTraders)}
       </div>
 
-      <div className="p-4 space-y-1.5">
-        <span className="text-xs text-slate-500 block font-medium">Activation rate</span>
+      <div className="space-y-1.5 md:border-r md:border-app-border md:pl-4">
+        <span className="text-[11px] text-ink-secondary block font-semibold uppercase tracking-wider">Activation rate</span>
         <div className="flex items-baseline gap-2">
-          <span className="text-2xl font-bold tracking-tight text-ink-primary num">{formatPercent(result.finalActivationRate)}</span>
+          <AnimatedNumber value={result.finalActivationRate} formatType="percent" className="text-[26px] font-bold tracking-tight text-ink-primary num" />
         </div>
         <span className="text-xs text-badge-pos font-semibold bg-badge-posBg border border-badge-posBorder px-2 py-0.5 rounded inline-block num">
           {result.finalActivationRate > baseline.finalActivationRate ? '+' : ''}
-          {(result.finalActivationRate - baseline.finalActivationRate).toFixed(1)}% vs base ({formatPercent(baseline.finalActivationRate)})
+          {(result.finalActivationRate - baseline.finalActivationRate).toFixed(1)}% vs base
         </span>
       </div>
 
-      <div className="p-4 space-y-1.5 col-span-2 md:col-span-1">
-        <span className="text-xs text-slate-500 block font-medium">Effective fee</span>
+      <div className="space-y-1.5 md:pl-4 col-span-2 md:col-span-1">
+        <span className="text-[11px] text-ink-secondary block font-semibold uppercase tracking-wider">Effective fee</span>
         <div className="flex items-baseline gap-2">
-          <span className="text-2xl font-bold tracking-tight text-ink-primary num">{result.effectiveFee.toFixed(4)}%</span>
+          <AnimatedNumber value={result.effectiveFee} formatType="bps" className="text-[26px] font-bold tracking-tight text-ink-primary num" />
         </div>
         {renderVariance(result.effectiveFee, baseline.effectiveFee, true)}
       </div>

@@ -1,5 +1,6 @@
 import { SimulationResult } from '@/lib/model';
-import { formatCurrency, formatPercent, formatNumber } from '@/lib/formatting';
+import AnimatedNumber from './AnimatedNumber';
+import { motion } from 'framer-motion';
 
 export default function Funnel({ result, baseline }: { result: SimulationResult, baseline: SimulationResult }) {
   
@@ -9,102 +10,86 @@ export default function Funnel({ result, baseline }: { result: SimulationResult,
     if (Math.abs(diff) < 0.01) return null;
     
     return (
-      <span className={`text-xs font-semibold block num ${diff > 0 ? 'text-badge-pos' : 'text-badge-neg'}`}>
+      <motion.span 
+        layout 
+        className={`text-xs font-semibold block num ${diff > 0 ? 'text-badge-pos' : 'text-badge-neg'}`}
+      >
         {diff > 0 ? '+' : ''}{diff.toFixed(1)}% vs base
-      </span>
+      </motion.span>
     );
   };
 
   return (
-    <div className="md:col-span-7 space-y-2.5 text-xs">
-      <div className="p-3 rounded-lg border border-app-border bg-slate-50/60 flex items-center justify-between shadow-subtle">
-        <div className="flex items-center gap-3">
-          <span className="w-6 h-6 rounded bg-white border border-slate-200 flex items-center justify-center text-xs font-semibold text-ink-primary num shadow-subtle">1</span>
-          <div>
-            <span className="font-semibold text-ink-primary text-sm block">Signups</span>
-            <span className="text-xs text-slate-500">Top-of-funnel acquisition</span>
-          </div>
+    <div className="text-[13px] relative">
+      <motion.div layout className="py-3 flex items-center justify-between">
+        <div>
+          <span className="font-semibold text-ink-primary text-sm block">Signups</span>
+          <span className="text-[11px] text-ink-secondary">Top-of-funnel acquisition</span>
         </div>
         <div className="text-right">
-          <span className="text-base font-bold text-ink-primary num">{formatNumber(result.inputs.signups)}</span>
+          <AnimatedNumber value={result.inputs.signups} formatType="number" className="text-base font-bold text-ink-primary num block" />
         </div>
-      </div>
+      </motion.div>
       
-      <div className="flex items-center px-4 py-0.5 text-xs text-teal-brand font-medium gap-1.5">
-        <span className="material-symbols-outlined text-[15px]">arrow_downward</span>
-        <span>{formatPercent(result.finalActivationRate)} activation</span>
-      </div>
+      <motion.div layout className="py-1.5 flex items-center text-[11px] text-teal-brand font-medium border-l-2 border-teal-brand/20 ml-2 pl-4">
+        <span>↓ <AnimatedNumber value={result.finalActivationRate} formatType="percent" /> activation</span>
+      </motion.div>
 
-      <div className="p-3 rounded-lg border border-app-border bg-slate-50/60 flex items-center justify-between shadow-subtle">
-        <div className="flex items-center gap-3">
-          <span className="w-6 h-6 rounded bg-white border border-slate-200 flex items-center justify-center text-xs font-semibold text-ink-primary num shadow-subtle">2</span>
-          <div>
-            <span className="font-semibold text-ink-primary text-sm block">Activated users</span>
-            <span className="text-xs text-slate-500">Completed KYC & first wallet load</span>
-          </div>
+      <motion.div layout className="py-3 flex items-center justify-between">
+        <div>
+          <span className="font-semibold text-ink-primary text-sm block">Activated users</span>
+          <span className="text-[11px] text-ink-secondary">Completed KYC & first wallet load</span>
         </div>
         <div className="text-right">
-          <span className="text-base font-bold text-ink-primary num">{formatNumber(result.activatedUsers)}</span>
+          <AnimatedNumber value={result.activatedUsers} formatType="number" className="text-base font-bold text-ink-primary num block" />
           {renderVariance(result.activatedUsers, baseline.activatedUsers)}
         </div>
-      </div>
+      </motion.div>
 
-      <div className="flex items-center px-4 py-0.5 text-xs text-teal-brand font-medium gap-1.5">
-        <span className="material-symbols-outlined text-[15px]">arrow_downward</span>
-        <span>{formatPercent(result.inputs.retention)} active trader conversion</span>
-      </div>
+      <motion.div layout className="py-1.5 flex items-center text-[11px] text-teal-brand font-medium border-l-2 border-teal-brand/20 ml-2 pl-4">
+        <span>↓ <AnimatedNumber value={result.inputs.retention} formatType="percent" /> active trader conversion</span>
+      </motion.div>
 
-      <div className="p-3 rounded-lg border border-app-border bg-slate-50/60 flex items-center justify-between shadow-subtle">
-        <div className="flex items-center gap-3">
-          <span className="w-6 h-6 rounded bg-white border border-slate-200 flex items-center justify-center text-xs font-semibold text-ink-primary num shadow-subtle">3</span>
-          <div>
-            <span className="font-semibold text-ink-primary text-sm block">Active traders</span>
-            <span className="text-xs text-slate-500">Sustained monthly transacting pool (M12)</span>
-          </div>
+      <motion.div layout className="py-3 flex items-center justify-between">
+        <div>
+          <span className="font-semibold text-ink-primary text-sm block">Active traders</span>
+          <span className="text-[11px] text-ink-secondary">Sustained monthly transacting pool (M12)</span>
         </div>
         <div className="text-right">
-          <span className="text-base font-bold text-ink-primary num">{formatNumber(result.activeTraders)}</span>
+          <AnimatedNumber value={result.activeTraders} formatType="number" className="text-base font-bold text-ink-primary num block" />
           {renderVariance(result.activeTraders, baseline.activeTraders)}
         </div>
-      </div>
+      </motion.div>
 
-      <div className="flex items-center px-4 py-0.5 text-xs text-slate-500 font-medium gap-1.5">
-        <span className="material-symbols-outlined text-[15px]">arrow_downward</span>
-        <span>₹{formatNumber(result.inputs.avgMonthlyVolume)} avg monthly volume</span>
-      </div>
+      <motion.div layout className="py-1.5 flex items-center text-[11px] text-ink-secondary font-medium border-l-2 border-app-border ml-2 pl-4">
+        <span>↓ ₹<AnimatedNumber value={result.inputs.avgMonthlyVolume} formatType="number" /> avg monthly volume</span>
+      </motion.div>
 
-      <div className="p-3 rounded-lg border border-app-border bg-slate-50/60 flex items-center justify-between shadow-subtle">
-        <div className="flex items-center gap-3">
-          <span className="w-6 h-6 rounded bg-white border border-slate-200 flex items-center justify-center text-xs font-semibold text-ink-primary num shadow-subtle">4</span>
-          <div>
-            <span className="font-semibold text-ink-primary text-sm block">Trading volume</span>
-            <span className="text-xs text-slate-500">Total cumulative flow (Year 1)</span>
-          </div>
+      <motion.div layout className="py-3 flex items-center justify-between">
+        <div>
+          <span className="font-semibold text-ink-primary text-sm block">Trading volume</span>
+          <span className="text-[11px] text-ink-secondary">Total cumulative flow (Year 1)</span>
         </div>
         <div className="text-right">
-          <span className="text-base font-bold text-ink-primary num">{formatCurrency(result.annualVolume)}</span>
+          <AnimatedNumber value={result.annualVolume} formatType="currency" className="text-base font-bold text-ink-primary num block" />
           {renderVariance(result.annualVolume, baseline.annualVolume)}
         </div>
-      </div>
+      </motion.div>
 
-      <div className="flex items-center px-4 py-0.5 text-xs text-slate-500 font-medium gap-1.5">
-        <span className="material-symbols-outlined text-[15px]">arrow_downward</span>
-        <span>{result.effectiveFee.toFixed(4)}% effective take rate</span>
-      </div>
+      <motion.div layout className="py-1.5 flex items-center text-[11px] text-ink-secondary font-medium border-l-2 border-app-border ml-2 pl-4">
+        <span>↓ <AnimatedNumber value={result.effectiveFee} formatType="bps" /> effective take rate</span>
+      </motion.div>
 
-      <div className="p-3.5 rounded-lg border border-teal-border bg-teal-subtle/50 flex items-center justify-between shadow-subtle">
-        <div className="flex items-center gap-3">
-          <span className="w-6 h-6 rounded bg-teal-brand text-white flex items-center justify-center text-xs font-semibold num shadow-subtle">5</span>
-          <div>
-            <span className="font-bold text-ink-primary text-sm block">Fee revenue</span>
-            <span className="text-xs text-slate-500">Modeled Year-1 exchange gross revenue</span>
-          </div>
+      <motion.div layout className="mt-2 py-4 border-t border-app-border flex items-center justify-between">
+        <div>
+          <span className="font-bold text-ink-primary text-[15px] block">Fee revenue</span>
+          <span className="text-[11px] text-ink-secondary">Modeled Year-1 exchange gross revenue</span>
         </div>
         <div className="text-right">
-          <span className="text-lg font-bold text-teal-brand num">{formatCurrency(result.annualRevenue)}</span>
+          <AnimatedNumber value={result.annualRevenue} formatType="currency" className="text-lg font-bold text-teal-brand num block" />
           {renderVariance(result.annualRevenue, baseline.annualRevenue)}
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }
